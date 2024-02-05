@@ -1,0 +1,36 @@
+const index = require('./index.js');
+// Add imports here
+require('@testing-library/jest-dom/extend-expect');
+import { TextEncoder } from 'util';
+
+global.TextEncoder = TextEncoder;
+
+const { JSDOM } = require('jsdom');
+const encoder = require("TextEncoder");
+const fs = require('fs');
+const path = require('path');
+const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8'  );
+
+
+describe("UnitTests", function() {
+
+  beforeAll(async function() {
+      // Add setup code here
+    dom = new JSDOM(html, {runScripts: 'dangerously'});
+        container = dom.window.document.body;
+        head = dom.window.document.head;
+        document = dom.window.document;
+        getComputedStyle = dom.window.getComputedStyle;
+  });
+
+  afterAll(async function() {
+      // Add teardown code here
+    
+  });
+
+  test("hearder_has_background_orange_on_hex", async function() {
+      // Enter code here
+      expect(document.querySelector("header").backgroundColor).toMatch(/#ff8000/);
+  });
+
+});
